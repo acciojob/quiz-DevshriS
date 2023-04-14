@@ -1,4 +1,4 @@
-const questions = [
+obj = [
     {
       question: "Which language runs in a web browser?",
       a: "Java",
@@ -24,72 +24,56 @@ const questions = [
       correct: "a",
     },
     {
-      question: "You answered 2/4 questions correctly",
       question: "What year was JavaScript launched?",
       a: "1996",
       b: "1995",
       c: "1994",
       d: "none of the above",
       correct: "b",
-    }
+    },
   ];
-  // Initialize variables
-  let currentQuestion = 0;
-  let score = 0;
-  // Get DOM elements
-  const quiz = document.getElementById("quiz");
-  const result = document.getElementById("result");
-  const questionEl = document.getElementById("question");
-  const aText = document.getElementById("a_text");
-  const bText = document.getElementById("b_text");
-  const cText = document.getElementById("c_text");
-  const dText = document.getElementById("d_text");
-  const submitBtn = document.getElementById("submit");
-  const resetBtn = document.getElementById("reset");
-  const scoreEl = document.getElementById("score");
-  // Function to show current question
-  function showQuestion() {
-    const currentQ = questions[currentQuestion];
-    questionEl.textContent = currentQ.question;
-    aText.textContent = currentQ.a;
-    bText.textContent = currentQ.b;
-    cText.textContent = currentQ.c;
-    dText.textContent = currentQ.d;
-  }
-  // Function to reset the quiz
-  function resetQuiz() {
-    currentQuestion = 0;
-    score = 0;
-    showQuestion();
-    quiz.classList.remove("hidden");
-    result.classList.add("hidden");
-  }
-  // Event listener for submit button
-  submitBtn.addEventListener("click", () => {
-    const selected = document.querySelector('input[name="answer"]:checked');
-    if (!selected) {
-      alert("Please select an option.");
-      return;
-    }
-    const answer = selected.value;
-    if (answer === questions[currentQuestion].correct) {
-      score++;
-    }
-    currentQuestion++;
-    if (currentQuestion < questions.length) {
-      showQuestion();
-    } else {
-      console.log("score:", score);
-      scoreEl.textContent = score;
-      console.log("scoreEl:", scoreEl);
-      quiz.classList.add("hidden");
-      result.classList.remove("hidden");
-      console.log("quiz:", quiz);
-      console.log("result:", result);
+  let submit = document.getElementById("submit");
+  let question = document.getElementById("question");
+  let a_text = document.getElementById("a_text");
+  let b_text = document.getElementById("b_text");
+  let c_text = document.getElementById("c_text");
+  let d_text = document.getElementById("d_text");
+  // let a = document.getElementById("a");
+  // let b = document.getElementById("b");
+  // let c = document.getElementById("c");
+  // let d = document.getElementById("d");
+  let marks = 0;
+  var questionTracker = 0;
+  submit.addEventListener("click", () => {
+    var userAnswer = document.querySelector('input[name="option"]:checked');
+    if (userAnswer) {
+      if (userAnswer.id == obj[questionTracker].correct) {
+        marks++;
+      }
+      questionTracker++;
+      userAnswer.checked = false;
+      if (obj.length > questionTracker) {
+        displayQuestion(questionTracker);
+      } else {
+        question.innerHTML = `You ansered ${marks}/4 questions correctly`;
+        let option_box = document.getElementById("option-box");
+        option_box.style.cssText = "display: none;";
+      }
     }
   });
-  // Event listener for reset button
-  resetBtn.addEventListener("click", resetQuiz);
-  // Show first question
-  showQuestion();
+  function displayQuestion(questionTracker) {
+    //it use for showing the qustion
+    question.innerHTML = obj[questionTracker].question;
+    a_text.innerHTML = obj[questionTracker].a;
+    b_text.innerHTML = obj[questionTracker].b;
+    c_text.innerHTML = obj[questionTracker].c;
+    d_text.innerHTML = obj[questionTracker].d;
+  }
   
+  let quz = document.getElementById("quiz");
+  
+  window.addEventListener("load", () => {
+    quz.style.cssText = "display: block;";
+  
+    displayQuestion(questionTracker);
+  });
